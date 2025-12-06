@@ -1,0 +1,11 @@
+*.npz
+checkpoints/nano_ep1.pt
+checkpoints/nano_ep2.pt
+checkpoints/nano_ep3.pt
+checkpoints/nano_ep4.pt
+checkpoints/nano_ep6.pt
+checkpoints/nano_ep7.pt
+checkpoints/nano_ep8.pt
+checkpoints/nano_ep9.pt
+checkpoints/nano_ep10.pt
+models/mobileclip_s1.pt

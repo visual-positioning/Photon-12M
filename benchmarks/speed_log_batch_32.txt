@@ -1,0 +1,22 @@
+==========================================
+       MOBILECAP NANO SPEED BENCHMARK     
+==========================================
+Device: NVIDIA GeForce RTX 4060 Laptop GPU
+
+[1] Loading Model...
+[2] Compiling Model (Torch 2.0 Optimization)...
+    (This takes ~1 minute but doubles speed)
+    -> Compilation Finished in 2.90s
+
+[3] RUNNING RAW THROUGHPUT TEST (Batch Size: 32)
+    (Measures how many images per second the GPU can handle in parallel)
+    -> Time for 32 captions: 365.03 ms
+    -> Raw Throughput: 87.66 FPS
+    -> Latency per Image (Amortized): 11.41 ms
+
+[4] RUNNING REAL-WORLD LATENCY TEST (Batch Size: 1)
+    (Measures time from 'Opening Image' to 'Text Output')
+    -> Total End-to-End Time: 671.86 ms
+    -> Generated Caption: "A living room with a couch, table, and a television."
+
+Done. Results saved to speed_log.txt
