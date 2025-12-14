@@ -163,7 +163,7 @@ def caption():
 if __name__ == "__main__":
     print("Loading models...")
     model, tokenizer = build_modern_model(TOKENIZER_PATH)
-    model.load_state_dict(torch.load(CHECKPOINT_PATH, map_location=DEVICE))
+    model.load_state_dict(torch.load(CHECKPOINT_PATH, weights_only=False, map_location=DEVICE))
     model = model.to(DEVICE).eval()
     model = torch.compile(model)
 
