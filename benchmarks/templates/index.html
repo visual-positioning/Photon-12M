@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nano Captioning</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        #caption-box {
+            margin-top: 20px;
+            padding: 20px;
+            border: 2px solid #000;
+            font-size: 22px;
+            width: 400px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>🎥 Real-Time Captioning</h2>
+
+<form id="startForm">
+    <label>Enter Stream URL:</label><br>
+    <input type="text" name="stream_url" id="stream_url"
+           placeholder="rtsp:// or http:// or 0" size="50" />
+    <br><br>
+    <button type="submit">Start Captioning</button>
+</form>
+
+<br>
+<button id="stopBtn">Stop</button>
+
+<h3>Live Caption:</h3>
+<div id="caption-box">Waiting…</div>
+
+<script>
+document.getElementById("startForm").onsubmit = async (e) => {
+    e.preventDefault();
+    const url = document.getElementById("stream_url").value;
+
+    await fetch("/start_stream", {
+        method: "POST",
+        body: new FormData(document.getElementById("startForm"))
+    });
+
+    // Connect to SSE stream
+    const eventSource = new EventSource("/caption_feed");
+    eventSource.onmessage = (event) => {
+        document.getElementById("caption-box").innerText = event.data;
+    };
+};
+
+document.getElementById("stopBtn").onclick = () => {
+    fetch("/stop_stream", { method: "POST" });
+};
+</script>
+
+</body>
+</html>
