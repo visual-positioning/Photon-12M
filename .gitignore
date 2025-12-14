@@ -8,4 +8,32 @@ checkpoints/nano_ep7.pt
 checkpoints/nano_ep8.pt
 checkpoints/nano_ep9.pt
 checkpoints/nano_ep10.pt
+models/mobileclip_s1.pt# Ignore training experiment files
+training/train_*.py
+training/train_rl_*.py
+training/*_rl.py
+training/*_v2.py
+training/*_v3.py
+training/*_gqa.py
+training/rl_utils.py
+training/test_rl_pipeline.py
+training/quick_reality.py
+training/debug_cider_sanity.py
+training/build_reward_cache.py
+training/build_coco_df.py
+# Ignore training artifacts
+*.pyc
+**/*.pyc
+training/*.pkl
+training/runs/
+checkpoints/rl_final
+checkpoints_v2/
+checkpoints_v3_gqa
+architecture/mobilecap_modern_v2.py
+
+
+benchmarks/preds.json
+benchmarks/speed_log.txt
+benchmarks/speed_log_batch*.txt
+
 models/mobileclip_s1.pt
