@@ -30,7 +30,7 @@ checkpoints/rl_final
 checkpoints_v2/
 checkpoints_v3_gqa
 architecture/mobilecap_modern_v2.py
-
+!training/train_nano.py
 benchmarks/captions_val2014__results.json
 benchmarks/generate_submission.py
 benchmarks/preds.json
@@ -46,14 +46,7 @@ models/mobileclip_s1.pt
 __pycache__/
 
 # Training experiments
-training/train_*.py
-training/train_rl_*.py
-training/*_rl.py
-training/*_v2.py
-training/*_v3.py
-training/*_gqa.py
-training/*.pkl
-training/runs/
+
 
 # Benchmarks outputs
 benchmarks/speed_log*.txt
@@ -61,7 +54,7 @@ benchmarks/preds.json
 benchmarks/captions_val2014__results.json
 
 # Checkpoints
-checkpoints/*.pt
+
 checkpoints/rl_final/
 checkpoints_v2/
 checkpoints_v3_gqa/
