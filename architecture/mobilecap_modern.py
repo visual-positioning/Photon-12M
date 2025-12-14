@@ -225,7 +225,7 @@ CFG_MODERN = {
     "device": "cuda" if torch.cuda.is_available() else "cpu"
 }
 
-def build_modern_model(tokenizer_path="../tokenizer/mobilecap_tokenizer.json"):
+def build_modern_model(tokenizer_path="/tokenizer/mobilecap_tokenizer.json"):
     try:
         tokenizer = PreTrainedTokenizerFast(tokenizer_file=tokenizer_path)
     except Exception as e:

@@ -31,9 +31,15 @@ checkpoints_v2/
 checkpoints_v3_gqa
 architecture/mobilecap_modern_v2.py
 
-
+benchmarks/captions_val2014__results.json
+benchmarks/generate_submission.py
 benchmarks/preds.json
 benchmarks/speed_log.txt
-benchmarks/speed_log_batch*.txt
-
+#benchmarks/speed_log_batch*.txt
+benchmarks/speed_log_batch_32.txt
+benchmarks/speed_log_batch_64.txt
+benchmarks/speed_log_batch_128.txt
+benchmarks/speed_log_batch_256.txt
+benchmarks/speed_log_batch_512.txt
 models/mobileclip_s1.pt
+
