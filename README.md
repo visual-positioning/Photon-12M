@@ -1,113 +1,151 @@
 # ⚡ Photon-12M: Extreme High-Efficiency Image Captioning
 
-[](https://pytorch.org/)
-[](https://opensource.org/licenses/MIT)
-[](https://www.google.com/search?q=)
-[](https://www.google.com/search?q=)
-[](https://www.google.com/search?q=)
+![PyTorch](https://img.shields.io/badge/PyTorch-2.x-red)
+![License](https://img.shields.io/badge/License-MIT-green)
+![Docker](https://img.shields.io/badge/Docker-Ready-blue)
 
-**Photon-12M** is a nano-scale Vision-Language Model (VLM) designed for extreme edge computing environments (Robotics, IoT, Wearables). By bridging a frozen MobileCLIP encoder with a custom **12M parameter Nano-LlaMA decoder**, this architecture achieves State-of-the-Art (SOTA) captioning performance for its size class while demonstrating an inference throughput of **942 FPS** on consumer hardware.
+**Photon-12M** is a nano-scale Vision–Language Model (VLM) designed for **extreme efficiency** in real-time and edge-constrained environments (Robotics, IoT, Wearables, Smart Cameras).
+
+By bridging a **frozen MobileCLIP-S1 vision encoder** with a custom **12M-parameter Nano-LLaMA decoder**, Photon-12M achieves near-SOTA captioning quality for its size class while delivering **ultra-high throughput (942 FPS)** on consumer GPUs.
 
 ---
 
 ## 📄 Abstract
 
-Current Multimodal Large Language Models (MLLMs) such as LLaVA-7B or BLIP-2 achieve high linguistic competence but incur massive computational costs (~140 GFLOPs per caption), limiting their deployment in real-time latency-sensitive applications.
+Modern multimodal models such as LLaVA-7B or BLIP-2 achieve strong language understanding but incur massive computational costs (≈140 GFLOPs per caption), making them unsuitable for real-time or embedded systems.
 
-We propose **Photon-12M**, a strictly efficient architecture that operates on **0.49 GFLOPs**. We introduce a **1-to-8 Latent Expansion Bridge** that projects global visual embeddings into a multi-token context, allowing a 12M parameter decoder to hallucinate fine-grained details without the cost of spatial grid attention. On the COCO dataset, Photon-12M achieves a **CIDEr score of 1.088**, matching the performance of models 100x its size, while running **600x faster**.
+We introduce **Photon-12M**, a strictly efficient architecture operating at **0.49 GFLOPs**. A novel **1-to-8 Latent Expansion Bridge** converts a single global visual embedding into a compact multi-token context, enabling fine-grained caption generation without spatial grid attention. On COCO Val2017, Photon-12M achieves a **CIDEr score of 1.088**, matching models **100× larger**, while running **600× faster**.
 
 ---
 
 ## 🧠 Methodology & Architecture
 
-The Photon-12M architecture consists of three distinct modules optimized for the "Nano" scale.
+Photon-12M consists of three carefully optimized components.
 
-### 1. Vision Encoder (MobileCLIP-S1)
+### 1️⃣ Vision Encoder — MobileCLIP-S1
 
-* **Backbone:** MobileCLIP-S1 (ViT-B/16 variant optimized for mobile).
-* **Strategy:** We utilize a **Frozen-Feature** strategy. The vision encoder is run once to extract a 512-dimensional global embedding vector. This vector is normalized to the unit hypersphere ($L2$ norm) to align with the CLIP contrastive latent space.
+* **Backbone:** MobileCLIP-S1 (mobile-optimized ViT-B/16 variant)
+* **Strategy:** Frozen feature extraction
+* **Output:** Single 512-D global image embedding (L2-normalized)
 
-### 2. The 1-to-8 Latent Expansion Bridge
+This ensures strong visual semantics with minimal compute overhead.
 
-A critical bottleneck in tiny models is "Context Collapse"—trying to generate a caption from a single token leads to blurry, generic descriptions.
+---
 
-* **Our Solution:** We implement a lightweight MLP Projector that maps the single $(1, 512)$ image vector into a sequence of $(8, 256)$ context tokens.
-* **Effect:** This provides the decoder with a "Working Memory" of 8 latent slots, allowing it to disentangle objects (e.g., "dog") from attributes (e.g., "running") effectively.
+### 2️⃣ 1-to-8 Latent Expansion Bridge
 
-### 3. The Nano-LlaMA Decoder
+Tiny decoders often suffer from *context collapse* when conditioned on a single token.
 
-Instead of using legacy RNN/LSTM architectures common in small models, we miniaturized the modern **LlaMA** transformer architecture to just **12 Million Parameters**:
+* **Our solution:** A lightweight MLP projects a `(1 × 512)` image vector into **8 latent tokens of size 256**
+* **Effect:** Acts as a compact working memory, allowing separation of objects, attributes, and actions
 
-* **RoPE (Rotary Positional Embeddings):** Enables the model to learn relative positions of words and concepts, superior to absolute embeddings for short captions.
-* **SwiGLU Activation:** A gated activation function that provides richer representational capacity than standard ReLU MLPs.
-* **RMSNorm:** Root Mean Square Normalization applied pre-layer to stabilize training at half-precision (FP16).
+This dramatically improves caption diversity and detail at negligible cost.
+
+---
+
+### 3️⃣ Nano-LLaMA Decoder (12M Parameters)
+
+A miniaturized transformer inspired by LLaMA, optimized for small-scale deployment:
+
+* **RoPE (Rotary Positional Embeddings)** – robust relative positioning
+* **SwiGLU activations** – higher representational capacity
+* **RMSNorm (pre-norm)** – stable FP16 training
+
+Despite its size, the decoder exhibits strong compositional language ability.
 
 ---
 
 ## 📊 Quantitative Results
 
-All benchmarks were conducted on an **NVIDIA GeForce RTX 4060 Laptop GPU** (8GB VRAM).
+All benchmarks were conducted on an **NVIDIA RTX 4060 Laptop GPU (8GB VRAM)**.
 
-### 1. Computational Efficiency (The "Kill Shot")
+### ⚡ Computational Efficiency
 
-| Model                 | Parameters | Throughput (FPS) | Latency (ms) | Compute (GFLOPs) |
-| --------------------- | ---------- | ---------------- | ------------ | ---------------- |
-| LLaVA-1.5 (7B)        | 7,000M     | ~1.5 FPS         | ~600 ms      | ~140.0           |
-| BLIP-Base             | 224M       | ~45 FPS          | ~22 ms       | ~15.0            |
-| **Photon-12M (Ours)** | **12M**    | **942.3 FPS**    | **1.06 ms**  | **0.49**         |
-
-### 2. Caption Quality (COCO Val2017)
-
-Evaluated on the full COCO Validation set (5,000 images).
-
-| Metric      | Score     | Interpretation                                                                                                        |
-| ----------- | --------- | --------------------------------------------------------------------------------------------------------------------- |
-| **CIDEr**   | **1.088** | **Consensus-based Image Description Evaluation.** Scores >1.0 indicate high semantic alignment with human references. |
-| **BLEU-4**  | 0.327     | Measures 4-gram precision (exact phrase matching).                                                                    |
-| **ROUGE-L** | 0.552     | Measures the longest common subsequence (structural similarity).                                                      |
-| **METEOR**  | 0.269     | Measures semantic alignment using synonyms/stemming.                                                                  |
+| Model          | Params  | FPS       | Latency     | GFLOPs   |
+| -------------- | ------- | --------- | ----------- | -------- |
+| LLaVA-1.5 (7B) | 7,000M  | ~1.5      | ~600 ms     | ~140.0   |
+| BLIP-Base      | 224M    | ~45       | ~22 ms      | ~15.0    |
+| **Photon-12M** | **12M** | **942.3** | **1.06 ms** | **0.49** |
 
 ---
 
-## 📉 Ablation Study: Batch Scaling
+### 🖼 Caption Quality (COCO Val2017)
 
-To determine the hardware saturation point, we benchmarked inference throughput across varying batch sizes using `torch.compile` (JIT optimization).
+| Metric    | Score     |
+| --------- | --------- |
+| **CIDEr** | **1.088** |
+| BLEU-4    | 0.327     |
+| ROUGE-L   | 0.552     |
+| METEOR    | 0.269     |
 
-| Batch Size | Total Time (ms) | FPS        | Status                 |
-| ---------- | --------------- | ---------- | ---------------------- |
-| 32         | 365.03 ms       | 87.66      | CPU Bottlenecked       |
-| 64         | 168.55 ms       | 379.72     | GPU Warming Up         |
-| 128        | 173.95 ms       | 735.85     | Efficient              |
-| **256**    | **271.66 ms**   | **942.37** | **Peak Saturation**    |
-| 512        | 552.59 ms       | 926.55     | Memory Bandwidth Limit |
+CIDEr > 1.0 indicates strong semantic agreement with human captions.
 
 ---
 
-## 💻 Installation & Usage
+## 📦 Installation & Setup (Docker — Recommended)
 
-### Prerequisites
+Docker is the **official and recommended** way to run Photon-12M. It guarantees reproducibility across systems and handles all native dependencies (CUDA, OpenCV, Java for METEOR, etc.).
 
-* Python 3.8+
-* PyTorch 2.0+ (Required for `torch.compile`)
+### 🔨 Build the Docker image
 
 ```bash
-git clone https://github.com/ganapathi1578/Photon-12M.git
-cd Photon-12M
-pip install torch torchvision numpy pillow opencv-python tqdm mobileclip
+docker build -t mobilecap .
 ```
 
-### Real-Time Demo (Webcam)
+### ▶ Run the container (GPU)
 
 ```bash
-python demo_live_robust.py
+docker run --gpus all -it -v $(pwd):/workspace mobilecap
 ```
 
-### Benchmarking
+> ⚠️ Ensure `nvidia-container-toolkit` is installed on your host.
 
-To reproduce the 942 FPS result:
+The MobileCLIP model weights (`models/mobileclip_s1.pt`) are automatically downloaded during the Docker build.
+
+---
+
+## 🚀 Inference & Demos
+
+### 1️⃣ Live Video Captioning (Webcam / RTSP)
+
+Run the Flask-based streaming demo:
 
 ```bash
-python benchmarks/speed_benchmark_logged.py
+python benchmarks/live_video_test.py
+```
+
+#### 🔧 RTSP Stream Configuration
+
+To use an RTSP camera, edit **line 14** in:
+
+```text
+benchmarks/stream.py
+```
+
+```python
+STREAM_URL = "rtsp://admin:admin@123@10.23.8.100:554/stream"
+```
+
+Then start the server:
+
+```bash
+python stream.py --host 0.0.0.0 --port 5000
+```
+
+Open your browser at:
+
+```text
+http://localhost:5000
+```
+
+---
+
+### 2️⃣ Raw Tokenizer & Throughput Test
+
+To test tokenizer speed and raw inference throughput:
+
+```bash
+python benchmarks/speedtest.py
 ```
 
 ---
@@ -116,14 +154,16 @@ python benchmarks/speed_benchmark_logged.py
 
 ```text
 Photon-12M/
-├── checkpoints/             # Pre-trained weights (Nano-Epoch 5)
-├── tokenizer/               # Custom BPE Tokenizer (Vocab: 8000)
-├── benchmarks/
-│   ├── benchmark_final.py   # Quality Audit (CIDEr/BLEU)
-│   └── speed_benchmark.py   # Efficiency Audit (FPS/GFLOPs)
-├── mobilecap_modern.py      # Architecture Definition (Nano-LlaMA)
-├── train_nano.py            # Training Pipeline
-└── demo_live_robust.py      # Real-time Inference Script
+├── architecture/            # Core model components
+├── training/                # Training & RL pipelines
+├── tokenizer/               # Custom BPE tokenizer (8k vocab)
+├── benchmarks/              # Speed, quality & streaming demos
+├── models/                  # Downloaded MobileCLIP weights
+├── train_nano.py            # Nano-LLaMA training script
+├── mobilecap_modern.py      # Model architecture definition
+├── Dockerfile
+├── requirements.txt
+└── README.md
 ```
 
 ---
@@ -132,15 +172,21 @@ Photon-12M/
 
 ```bibtex
 @misc{photon12m,
-  title={Photon-12M: Extreme High-Efficiency Image Captioning via Nano-LlaMA},
-  author={Ganapathi},
-  year={2025},
-  publisher={GitHub},
-  journal={GitHub repository},
-  howpublished={\url{https://github.com/ganapathi1578/Photon-12M}}
+  title        = {Photon-12M: Extreme High-Efficiency Image Captioning via Nano-LLaMA},
+  author       = {Ganapathi},
+  year         = {2025},
+  publisher    = {GitHub},
+  journal      = {GitHub repository},
+  howpublished = {\\url{https://github.com/ganapathi1578/Photon-12M}}
 }
 ```
 
+---
+
 ## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is released under the **MIT License**. See the `LICENSE` file for details.
+
+---
+
+> **Photon-12M demonstrates that extreme efficiency and strong multimodal reasoning are not mutually exclus
