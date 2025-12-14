@@ -5,7 +5,7 @@ from tokenizers import Tokenizer, models, pre_tokenizers, decoders, trainers, pr
 # ---------------------
 CAPTION_FILE = r"C:\Dataset\coco2017\annotations\captions_train2017.json" # Adjust path
 VOCAB_SIZE = 8000  # <--- Key for keeping model small
-SAVE_FILE = "mobilecap_tokenizer.json"
+SAVE_FILE = "tokenizer/mobilecap_tokenizer.json"
 
 def train_coco_tokenizer():
     print(f"Loading captions from {CAPTION_FILE}...")

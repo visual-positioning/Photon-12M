@@ -12,8 +12,8 @@ from mobilecap_modern import build_modern_model
 # CONFIG
 # ----------------------------
 STREAM_URL = "rtsp://admin:admin@123@10.23.8.100:554/stream"   # <--- CHANGE YOUR URL HERE
-CHECKPOINT_PATH = "../checkpoints/nano_ep5.pt"
-TOKENIZER_PATH = "../tokenizer/mobilecap_tokenizer.json"
+CHECKPOINT_PATH = "checkpoints/nano_ep5.pt"
+TOKENIZER_PATH = "tokenizer/mobilecap_tokenizer.json"
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 CAPTION_INTERVAL = 5
 

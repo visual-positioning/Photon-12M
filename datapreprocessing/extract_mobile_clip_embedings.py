@@ -14,11 +14,11 @@ import math
 COCO_ROOT = r"C:\Dataset\coco2017" 
 
 # Output directory for embeddings
-OUT_DIR = "coco_embeddings_s1"
+OUT_DIR = "datapreprocessing/coco_embeddings_s1"
 
 # Hyperparameters
 MODEL_NAME = 'mobileclip_s1'
-CHECKPOINT_PATH = '../models/mobileclip_s1.pt' # Ensure this file exists
+CHECKPOINT_PATH = 'models/mobileclip_s1.pt' # Ensure this file exists
 BATCH_SIZE = 128                     # 256 or 512 if you have a big GPU (RTX 3090/4090)
 NUM_WORKERS = 2                      # Number of CPU cores for image loading
 SAVE_CHUNK_SIZE = 1000              # Save to disk every 10k images (Safety)

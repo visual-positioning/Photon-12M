@@ -41,6 +41,7 @@ benchmarks/speed_log_batch_64.txt
 benchmarks/speed_log_batch_128.txt
 benchmarks/speed_log_batch_256.txt
 benchmarks/speed_log_batch_512.txt
+benchmarks/test.py
 models/mobileclip_s1.pt
 *.pyc
 __pycache__/

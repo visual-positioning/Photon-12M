@@ -6,12 +6,12 @@ import threading
 import numpy as np
 from PIL import Image
 import mobileclip
-from mobilecap_modern import build_modern_model
+from benchmarks.mobilecap_modern import build_modern_model
 
 url = 0
 
-CHECKPOINT_PATH = "../checkpoints/nano_ep5.pt"
-TOKENIZER_PATH = "../tokenizer/mobilecap_tokenizer.json"
+CHECKPOINT_PATH = "checkpoints/nano_ep5.pt"
+TOKENIZER_PATH = "tokenizer/mobilecap_tokenizer.json"
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 CAPTION_INTERVAL = 25

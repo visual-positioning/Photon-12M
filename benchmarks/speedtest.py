@@ -4,13 +4,13 @@ import os
 import logging
 from PIL import Image
 import mobileclip
-from mobilecap_modern import build_modern_model
+from benchmarks.mobilecap_modern import build_modern_model
 
 # ============================
 # CONFIG
 # ============================
-CHECKPOINT_PATH = "../checkpoints/nano_ep5.pt"
-TOKENIZER_PATH = "../tokenizer/mobilecap_tokenizer.json"
+CHECKPOINT_PATH = "checkpoints/nano_ep5.pt"
+TOKENIZER_PATH = "tokenizer/mobilecap_tokenizer.json"
 REAL_IMAGE_PATH = r"C:\Dataset\coco2017\val2017\000000000139.jpg"  # set to a real image
 LOG_FILE = "speed_log.txt"
 USE_DEVICE = "cuda" if torch.cuda.is_available() else "cpu"

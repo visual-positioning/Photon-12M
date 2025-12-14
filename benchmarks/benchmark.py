@@ -20,7 +20,7 @@ from pycocoevalcap.cider.cider import Cider
 # from pycocoevalcap.spice.spice import Spice  <-- WE ARE DISABLING THIS
 
 import mobileclip
-from mobilecap_modern import build_modern_model
+from benchmarks.mobilecap_modern import build_modern_model
 
 # ==========================================
 # 1. CONFIGURATION

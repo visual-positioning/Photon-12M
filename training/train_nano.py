@@ -11,17 +11,17 @@ from tqdm import tqdm
 import random
 
 # Import the model we just created
-from mobilecap_modern import build_modern_model
+from benchmarks.mobilecap_modern import build_modern_model
 
 # ==========================================
 # 1. CONFIGURATION
 # ==========================================
 # Paths - ADJUST THESE IF NEEDED
-EMBEDDINGS_DIR = "../datapreprocessing/coco_embeddings_s1"      
+EMBEDDINGS_DIR = "/datapreprocessing/coco_embeddings_s1"      
 ANNOTATIONS_PATH = r"C:\Dataset\coco2017\annotations\captions_train2017.json"
 VAL_ANNOTATIONS_PATH = r"C:\Dataset\coco2017\annotations\captions_val2017.json"
-TOKENIZER_PATH = "../tokenizer/mobilecap_tokenizer.json"
-SAVE_DIR = "../checkpoints"
+TOKENIZER_PATH = "/tokenizer/mobilecap_tokenizer.json"
+SAVE_DIR = "/checkpoints"
 
 # Hyperparameters
 BATCH_SIZE = 512       # Optimized for RTX 4060
