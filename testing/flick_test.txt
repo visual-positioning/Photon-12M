@@ -1,0 +1,17 @@
+nohup: ignoring input
+Generating captions:   0%|          | 0/1 [00:00<?, ?it/s]Generating captions: 100%|██████████| 1/1 [00:18<00:00, 18.35s/it]Generating captions: 100%|██████████| 1/1 [00:18<00:00, 18.35s/it]
+Parsing reference captions
+Parsing test captions
+SPICE evaluation took: 783.0 ms
+
+--- Evaluation Results ---
+{'testlen': 11380, 'reflen': 11127, 'guess': [11380, 10380, 9380, 8380], 'correct': [7512, 3489, 1518, 649]}
+ratio: 1.022737485395792
+BLEU-1: 66.01%
+BLEU-2: 47.10%
+BLEU-3: 32.99%
+BLEU-4: 22.96%
+ROUGE-L: 47.17%
+METEOR: 23.30%
+CIDEr: 45.81%
+SPICE: 16.36%
