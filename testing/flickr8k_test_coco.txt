@@ -1,0 +1,17 @@
+Loading MobileCLIP...
+Loading caption model...
+Test images: 1000
+SPICE evaluation took: 19.37 s
+Evaluating 1000 images
+
+--- Flickr8k Test Results ---
+{'testlen': 9950, 'reflen': 9988, 'guess': [9950, 8950, 7950, 6950], 'correct': [6110, 2604, 925, 325]}
+ratio: 0.996195434521326
+BLEU-1 : 61.17
+BLEU-2 : 42.11
+BLEU-3 : 27.39
+BLEU-4 : 17.59
+ROUGE-L: 42.48
+METEOR : 22.62
+CIDEr  : 33.54
+SPICE  : 15.80
