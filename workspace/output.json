@@ -1,0 +1,32 @@
+[
+    {
+        "experiment_id": "EXP_20260201_223933",
+        "timestamp": "2026-02-01 22:39:33",
+        "remark": "",
+        "configuration": {
+            "dataset": "coco2017",
+            "method": "blip",
+            "checkpoint": "default",
+            "metrics_list": [
+                "cider"
+            ]
+        },
+        "results": {}
+    },
+    {
+        "experiment_id": "EXP_20260201_225022",
+        "timestamp": "2026-02-01 22:50:22",
+        "remark": "",
+        "configuration": {
+            "dataset": "coco2017",
+            "method": "blip",
+            "checkpoint": "default",
+            "metrics_list": [
+                "cider"
+            ]
+        },
+        "results": {
+            "CIDEr": 84.65850119916296
+        }
+    }
+]
