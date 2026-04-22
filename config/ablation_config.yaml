@@ -1,0 +1,276 @@
+# ==============================================================================
+# GROUP 1: BASELINE (Reference Point)
+# ==============================================================================
+- experiment_name: "Exp01_Baseline_L6_D256_P8"
+  description: "Standard MobileCap configuration for reference."
+  # Paths
+  tokenizer_path: "tokenizer/mobilecap_tokenizer.json"
+  embeddings_dir: "dataset/MSCOCO2014/embeddings_s1_train_restval"
+  karpathy_json_path: "dataset/karapathy_split/dataset_coco.json"
+  # Model Hyperparameters
+  d_model: 256
+  num_heads: 8
+  ffn_hidden: 768           # Usually 3x or 4x d_model
+  num_layers: 6
+  max_length: 32
+  num_img_tokens: 8         # Prefix length
+  conditioning_strategy: "prefix"
+  # Training Hyperparameters
+  batch_size: 512
+  lr: 3.0e-4
+  epochs: 10
+  weight_decay: 0.01
+  device: "cuda"
+  mixed_precision: true     # Standard mixed precision
+
+# ==============================================================================
+# GROUP 2: PREFIX LENGTH STUDY (Outcomes: Visual Bandwidth vs Quality)
+# Varying num_img_tokens: {1, 2, 4, 16} (8 is in baseline)
+# ==============================================================================
+- experiment_name: "Exp02_Prefix_Len_1"
+  tokenizer_path: "tokenizer/mobilecap_tokenizer.json"
+  embeddings_dir: "dataset/MSCOCO2014/embeddings_s1_train_restval"
+  karpathy_json_path: "dataset/karapathy_split/dataset_coco.json"
+  d_model: 256
+  num_heads: 8
+  ffn_hidden: 768
+  num_layers: 6
+  max_length: 32
+  num_img_tokens: 1         # <--- CHANGED
+  conditioning_strategy: "prefix"
+  batch_size: 512
+  lr: 3.0e-4
+  epochs: 10
+  weight_decay: 0.01
+  device: "cuda"
+  mixed_precision: true
+
+- experiment_name: "Exp03_Prefix_Len_2"
+  tokenizer_path: "tokenizer/mobilecap_tokenizer.json"
+  embeddings_dir: "dataset/MSCOCO2014/embeddings_s1_train_restval"
+  karpathy_json_path: "dataset/karapathy_split/dataset_coco.json"
+  d_model: 256
+  num_heads: 8
+  ffn_hidden: 768
+  num_layers: 6
+  max_length: 32
+  num_img_tokens: 2         # <--- CHANGED
+  conditioning_strategy: "prefix"
+  batch_size: 512
+  lr: 3.0e-4
+  epochs: 10
+  weight_decay: 0.01
+  device: "cuda"
+  mixed_precision: true
+
+- experiment_name: "Exp04_Prefix_Len_4"
+  tokenizer_path: "tokenizer/mobilecap_tokenizer.json"
+  embeddings_dir: "dataset/MSCOCO2014/embeddings_s1_train_restval"
+  karpathy_json_path: "dataset/karapathy_split/dataset_coco.json"
+  d_model: 256
+  num_heads: 8
+  ffn_hidden: 768
+  num_layers: 6
+  max_length: 32
+  num_img_tokens: 4         # <--- CHANGED
+  conditioning_strategy: "prefix"
+  batch_size: 512
+  lr: 3.0e-4
+  epochs: 10
+  weight_decay: 0.01
+  device: "cuda"
+  mixed_precision: true
+
+- experiment_name: "Exp05_Prefix_Len_16"
+  tokenizer_path: "tokenizer/mobilecap_tokenizer.json"
+  embeddings_dir: "dataset/MSCOCO2014/embeddings_s1_train_restval"
+  karpathy_json_path: "dataset/karapathy_split/dataset_coco.json"
+  d_model: 256
+  num_heads: 8
+  ffn_hidden: 768
+  num_layers: 6
+  max_length: 32
+  num_img_tokens: 16        # <--- CHANGED
+  conditioning_strategy: "prefix"
+  batch_size: 512
+  lr: 3.0e-4
+  epochs: 10
+  weight_decay: 0.01
+  device: "cuda"
+  mixed_precision: true
+
+# ==============================================================================
+# GROUP 3: DECODER CAPACITY STUDY (Outcomes: Quality vs Params vs GFLOPs)
+# Varying Layers: {2, 4, 8} (6 is baseline)
+# Varying Width (d_model): {192, 320} (256 is baseline)
+# ==============================================================================
+# --- Depth Variations ---
+- experiment_name: "Exp06_Depth_2_Layers"
+  tokenizer_path: "tokenizer/mobilecap_tokenizer.json"
+  embeddings_dir: "dataset/MSCOCO2014/embeddings_s1_train_restval"
+  karpathy_json_path: "dataset/karapathy_split/dataset_coco.json"
+  d_model: 256
+  num_heads: 8
+  ffn_hidden: 768
+  num_layers: 2             # <--- CHANGED (Ultra-light)
+  max_length: 32
+  num_img_tokens: 8
+  conditioning_strategy: "prefix"
+  batch_size: 512
+  lr: 4.0e-4                # Slightly higher LR for shallower network
+  epochs: 10
+  weight_decay: 0.01
+  device: "cuda"
+  mixed_precision: true
+
+- experiment_name: "Exp07_Depth_4_Layers"
+  tokenizer_path: "tokenizer/mobilecap_tokenizer.json"
+  embeddings_dir: "dataset/MSCOCO2014/embeddings_s1_train_restval"
+  karpathy_json_path: "dataset/karapathy_split/dataset_coco.json"
+  d_model: 256
+  num_heads: 8
+  ffn_hidden: 768
+  num_layers: 4             # <--- CHANGED
+  max_length: 32
+  num_img_tokens: 8
+  conditioning_strategy: "prefix"
+  batch_size: 512
+  lr: 3.0e-4
+  epochs: 10
+  weight_decay: 0.01
+  device: "cuda"
+  mixed_precision: true
+
+- experiment_name: "Exp08_Depth_8_Layers"
+  tokenizer_path: "tokenizer/mobilecap_tokenizer.json"
+  embeddings_dir: "dataset/MSCOCO2014/embeddings_s1_train_restval"
+  karpathy_json_path: "dataset/karapathy_split/dataset_coco.json"
+  d_model: 256
+  num_heads: 8
+  ffn_hidden: 768
+  num_layers: 8             # <--- CHANGED (Deeper)
+  max_length: 32
+  num_img_tokens: 8
+  conditioning_strategy: "prefix"
+  batch_size: 256           # Reduced batch size for VRAM safety
+  lr: 2.5e-4                # Lower LR for deeper network
+  epochs: 12                # More epochs for convergence
+  weight_decay: 0.02
+  device: "cuda"
+  mixed_precision: true
+
+# --- Width Variations ---
+- experiment_name: "Exp09_Width_192"
+  tokenizer_path: "tokenizer/mobilecap_tokenizer.json"
+  embeddings_dir: "dataset/MSCOCO2014/embeddings_s1_train_restval"
+  karpathy_json_path: "dataset/karapathy_split/dataset_coco.json"
+  d_model: 192              # <--- CHANGED (Narrow)
+  num_heads: 6              # Adjusted to match d_model (192/6 = 32 dim per head)
+  ffn_hidden: 576           # 3 * 192
+  num_layers: 6
+  max_length: 32
+  num_img_tokens: 8
+  conditioning_strategy: "prefix"
+  batch_size: 512
+  lr: 3.5e-4
+  epochs: 10
+  weight_decay: 0.01
+  device: "cuda"
+  mixed_precision: true
+
+- experiment_name: "Exp10_Width_320"
+  tokenizer_path: "tokenizer/mobilecap_tokenizer.json"
+  embeddings_dir: "dataset/MSCOCO2014/embeddings_s1_train_restval"
+  karpathy_json_path: "dataset/karapathy_split/dataset_coco.json"
+  d_model: 320              # <--- CHANGED (Wide)
+  num_heads: 10             # Adjusted (320/10 = 32 dim per head)
+  ffn_hidden: 960           # 3 * 320
+  num_layers: 6
+  max_length: 32
+  num_img_tokens: 8
+  conditioning_strategy: "prefix"
+  batch_size: 512
+  lr: 2.8e-4
+  epochs: 10
+  weight_decay: 0.01
+  device: "cuda"
+  mixed_precision: true
+
+# ==============================================================================
+# GROUP 4: CONDITIONING STRATEGY COMPARISON
+# Note: Code modifications required to handle 'conditioning_strategy' logic
+# ==============================================================================
+- experiment_name: "Exp11_Cond_Global_Token"
+  tokenizer_path: "tokenizer/mobilecap_tokenizer.json"
+  embeddings_dir: "dataset/MSCOCO2014/embeddings_s1_train_restval"
+  karpathy_json_path: "dataset/karapathy_split/dataset_coco.json"
+  d_model: 256
+  num_heads: 8
+  ffn_hidden: 768
+  num_layers: 6
+  max_length: 32
+  num_img_tokens: 1         # Usually 1 token for global
+  conditioning_strategy: "global_token" # <--- Requires model logic change
+  batch_size: 512
+  lr: 3.0e-4
+  epochs: 10
+  weight_decay: 0.01
+  device: "cuda"
+  mixed_precision: true
+
+- experiment_name: "Exp12_Cond_Mean_Add"
+  tokenizer_path: "tokenizer/mobilecap_tokenizer.json"
+  embeddings_dir: "dataset/MSCOCO2014/embeddings_s1_train_restval"
+  karpathy_json_path: "dataset/karapathy_split/dataset_coco.json"
+  d_model: 256
+  num_heads: 8
+  ffn_hidden: 768
+  num_layers: 6
+  max_length: 32
+  num_img_tokens: 0         # No tokens added to sequence
+  conditioning_strategy: "mean_add" # <--- Requires adding emb to every embedding vector
+  batch_size: 512
+  lr: 3.0e-4
+  epochs: 10
+  weight_decay: 0.01
+  device: "cuda"
+  mixed_precision: true
+
+- experiment_name: "Exp13_Cond_Cross_Attn"
+  tokenizer_path: "tokenizer/mobilecap_tokenizer.json"
+  embeddings_dir: "dataset/MSCOCO2014/embeddings_s1_train_restval"
+  karpathy_json_path: "dataset/karapathy_split/dataset_coco.json"
+  d_model: 256
+  num_heads: 8
+  ffn_hidden: 768
+  num_layers: 6
+  max_length: 32
+  num_img_tokens: 4         # Tokens used as keys/values in cross attn
+  conditioning_strategy: "cross_attn" # <--- Requires X-Attn layers
+  batch_size: 512
+  lr: 3.0e-4
+  epochs: 10
+  weight_decay: 0.01
+  device: "cuda"
+  mixed_precision: true
+
+# ==============================================================================
+# GROUP 5: MIXED PRECISION IMPACT
+# ==============================================================================
+- experiment_name: "Exp14_Precision_Full_FP32"
+  tokenizer_path: "tokenizer/mobilecap_tokenizer.json"
+  embeddings_dir: "dataset/MSCOCO2014/embeddings_s1_train_restval"
+  karpathy_json_path: "dataset/karapathy_split/dataset_coco.json"
+  d_model: 256
+  num_heads: 8
+  ffn_hidden: 768
+  num_layers: 6
+  max_length: 32
+  num_img_tokens: 8
+  conditioning_strategy: "prefix"
+  batch_size: 512
+  lr: 3.0e-4
+  epochs: 10
+  weight_decay: 0.01
+  device: "cuda"
+  mixed_precision: false    # <--- CHANGED (Disable AMP)
